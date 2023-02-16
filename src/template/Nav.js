@@ -5,13 +5,16 @@ import logo from "../assets/images/logo.svg";
 import english from "../assets/images/america.png";
 import vietnam from "../assets/images/vietnam.png";
 import thailand from "../assets/images/thailand.png";
+// 반응형
+import { useMediaQuery } from "react-responsive";
 
-//번역팩
+// 번역팩
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 export default function Nav() {
   const { t } = useTranslation();
+  const isDesktop = useMediaQuery({ minWidth: 1120 });
   function handleClick(lang) {
     i18next.changeLanguage(lang);
   }
@@ -20,6 +23,7 @@ export default function Nav() {
   const handleOpenMyMenu = () => {
     !isOpenMyMenu ? setIsOpenMyMenu(true) : setIsOpenMyMenu(false);
   };
+  console.log(isDesktop);
   return (
     <NavContainer>
       <LogoSymbol src={logo} />
@@ -68,11 +72,9 @@ const NavContainer = styled.nav`
   right: 0;
   z-index: 1001;
   display: flex;
-  justify-content: space-between;
+  justify-content: "space-between";
   align-items: center;
   height: 6.0625rem;
-  padding-right: 30px;
-  padding-left: 30px;
   box-sizing: border-box;
 `;
 //border-bottom: 1px solid #d3d3d3; 네브바 하단줄
@@ -205,8 +207,8 @@ const Linker = styled.a`
 const LogoSymbol = styled.img`
   width: 140px;
   height: 120px;
-  margin: 8px 4px 0 0;
   cursor: pointer;
+  left: 10px;
 `;
 const MyButton = styled.button`
   position: relative;
@@ -231,7 +233,7 @@ const MyButton = styled.button`
 const MyMenu = styled.ul`
   width: 150px;
   position: absolute;
-  right: 20px;
+  right: 5px;
   top: 58px;
   border-radius: 8px;
   box-shadow: 3px -3px 50px rgba(0, 0, 0, 0.13);
