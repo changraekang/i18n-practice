@@ -29,16 +29,16 @@ export default function Nav() {
       <LogoSymbol src={logo} />
       <NavContents>
         <NavContentsHover>
-          <NavContents></NavContents>
+          <NavContents>1</NavContents>
         </NavContentsHover>
         <NavContentsHover>
-          <NavContents></NavContents>
+          <NavContents>1</NavContents>
         </NavContentsHover>
         <NavContentsHover>
-          <NavContents></NavContents>
+          <NavContents>1</NavContents>
         </NavContentsHover>
         <NavContentsHover>
-          <NavContents></NavContents>
+          <NavContents>1</NavContents>
         </NavContentsHover>
       </NavContents>
       <NavContents>
@@ -72,7 +72,7 @@ const NavContainer = styled.nav`
   right: 0;
   z-index: 1001;
   display: flex;
-  justify-content: "space-between";
+  justify-content: space-between;
   align-items: center;
   height: 6.0625rem;
   box-sizing: border-box;
@@ -208,7 +208,6 @@ const LogoSymbol = styled.img`
   width: 140px;
   height: 120px;
   cursor: pointer;
-  left: 10px;
 `;
 const MyButton = styled.button`
   position: relative;
