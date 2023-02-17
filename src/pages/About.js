@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-export default function Detail() {
+export default function About() {
   const { t } = useTranslation();
   return (
     <>
-      <Flex>{t("Detail")}</Flex>
+      <Flex>{t("About LuluBeauty")}</Flex>
     </>
   );
 }

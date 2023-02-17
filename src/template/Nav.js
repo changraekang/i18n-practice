@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 // 로고
 import logo from "../assets/images/logo.svg";
+import faBar from "../assets/images/faBar.png";
 import english from "../assets/images/america.png";
 import vietnam from "../assets/images/vietnam.png";
 import thailand from "../assets/images/thailand.png";
@@ -11,41 +12,66 @@ import { useMediaQuery } from "react-responsive";
 // 번역팩
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const isDesktop = useMediaQuery({ minWidth: 1120 });
   function handleClick(lang) {
     i18next.changeLanguage(lang);
   }
-  const [isOpenMyMenu, setIsOpenMyMenu] = useState(false);
+  const [isOpenMyRightMenu, setIsOpenMyRightMenu] = useState(false);
+  const [isOpenMyLeftMenu, setIsOpenMyLeftMenu] = useState(false);
 
-  const handleOpenMyMenu = () => {
-    !isOpenMyMenu ? setIsOpenMyMenu(true) : setIsOpenMyMenu(false);
+  const handleOpenMyRightMenu = () => {
+    !isOpenMyRightMenu
+      ? setIsOpenMyRightMenu(true)
+      : setIsOpenMyRightMenu(false);
   };
-  console.log(isDesktop);
+  const handleSignIn = () => {
+    navigate("/signin");
+    setIsOpenMyLeftMenu(false);
+  };
+  const handleSignUp = () => {
+    navigate("/signup");
+    setIsOpenMyLeftMenu(false);
+  };
+  function handleMenuClick(menu) {
+    navigate(`/${menu}`);
+    setIsOpenMyLeftMenu(false);
+  }
+
+  const handleOpenMyLeftMenu = () => {
+    !isOpenMyLeftMenu ? setIsOpenMyLeftMenu(true) : setIsOpenMyLeftMenu(false);
+  };
   return (
     <NavContainer>
-      <LogoSymbol src={logo} />
+      <MyFaBarsIcon src={faBar} onClick={handleOpenMyLeftMenu} />
+      {isOpenMyLeftMenu && (
+        <MyLeftMenu>
+          <MyMenuAuthLi onClick={handleSignIn}>{t("Sign In")}</MyMenuAuthLi>
+          <MyMenuAuthLi onClick={handleSignUp}>{t("Sign Up")}</MyMenuAuthLi>
+          <MyLeftMenuLi onClick={() => handleMenuClick("about")}>
+            {t("About LuluBeauty")}
+          </MyLeftMenuLi>
+          <MyLeftMenuLi onClick={() => handleMenuClick("partner")}>
+            {t("Our Partners")}
+          </MyLeftMenuLi>
+          <MyLeftMenuLi onClick={() => handleMenuClick("schedule")}>
+            {t("Schedule an Appointment")}
+          </MyLeftMenuLi>
+          <MyLeftMenuLi onClick={() => handleMenuClick("faq")}>
+            {t("FAQ")}
+          </MyLeftMenuLi>
+        </MyLeftMenu>
+      )}
+      <LogoSymbol src={logo} onClick={() => navigate("/")} />
       <NavContents>
-        <NavContentsHover>
-          <NavContents>1</NavContents>
-        </NavContentsHover>
-        <NavContentsHover>
-          <NavContents>1</NavContents>
-        </NavContentsHover>
-        <NavContentsHover>
-          <NavContents>1</NavContents>
-        </NavContentsHover>
-        <NavContentsHover>
-          <NavContents>1</NavContents>
-        </NavContentsHover>
-      </NavContents>
-      <NavContents>
-        <MyButton onClick={handleOpenMyMenu}>
+        <MyButton onClick={handleOpenMyRightMenu}>
           Language
-          {isOpenMyMenu && (
-            <MyMenu>
+          {isOpenMyRightMenu && (
+            <MyRightMenu>
               <MyMenuLi onClick={() => handleClick("en")}>
                 <MyMenuIcon profileIcon={true} src={english} alt="english" />
                 English
@@ -58,7 +84,7 @@ export default function Nav() {
                 <MyMenuIcon src={thailand} alt="thailand" />
                 Thai
               </MyMenuLi>
-            </MyMenu>
+            </MyRightMenu>
           )}
         </MyButton>
       </NavContents>
@@ -74,7 +100,7 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 6.0625rem;
+  height: 4.0625rem;
   box-sizing: border-box;
 `;
 //border-bottom: 1px solid #d3d3d3; 네브바 하단줄
@@ -223,13 +249,13 @@ const MyButton = styled.button`
   cursor: pointer;
   font-weight: 900;
   color: black;
-  margin-right: 20px;
+  margin-right: 5px;
   &:hover {
     border-radius: 8px;
   }
 `;
 
-const MyMenu = styled.ul`
+const MyRightMenu = styled.ul`
   width: 150px;
   position: absolute;
   right: 5px;
@@ -255,7 +281,7 @@ const MyMenu = styled.ul`
     position: absolute;
     width: 0px;
     height: 0px;
-    border-bottom: 28px solid black;
+    border-bottom: 28px solid white;
     border-left: 0px solid transparent;
     border-right: 28px solid transparent;
     right: 0;
@@ -263,16 +289,57 @@ const MyMenu = styled.ul`
     transform: rotate(270deg);
   }
 `;
+const MyLeftMenu = styled.ul`
+  width: 150px;
+  position: absolute;
+  left: 5px;
+  top: 58px;
+  border-radius: 8px;
+  box-shadow: 3px -3px 50px rgba(0, 0, 0, 0.13);
+  background-color: white;
+  text-align: center;
+  padding: 16px;
+  font-weight: 400;
+  font-style: 100px;
+`;
 
 const MyMenuLi = styled.li`
   display: flex;
   align-items: center;
   gap: 12px;
+  font-weight: 600;
   cursor: pointer;
   justify-content: ${(props) => (props.first ? "center" : "")};
+`;
+const MyLeftMenuLi = styled.li`
+  display: flex;
+  height: 44px;
+  align-items: center;
+  border-bottom: 3px solid black;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  justify-content: ${(props) => (props.first ? "center" : "")};
+`;
+const MyMenuAuthLi = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #12bd7e;
+  border-radius: 14px;
+  margin-bottom: 5px;
+  font-weight: 300;
+  color: white;
+  cursor: pointer;
 `;
 
 const MyMenuIcon = styled.img`
   width: 30px;
   padding: 5px;
+`;
+
+const MyFaBarsIcon = styled.img`
+  width: 30px;
+  margin-left: 15px;
 `;
